@@ -7,17 +7,23 @@ public class player_mov : MonoBehaviour
     private Vector2 touch_s = Vector2.zero;
     private Vector2 touch_e = Vector2.zero;
     private Vector2 end = Vector2.zero;
-    private float com_div = Screen.width / 20;
+    private Vector2 max = Vector2.zero;
+    private Vector2 ideal_screen = new Vector2(1080,1920);
+    private Vector2 screen_div = Vector2.zero;
+    public float div = 20;
 
 
     void Start()
     {
-        
+        screen_div.x = ideal_screen.x / Screen.width;
+        screen_div.y = ideal_screen.y / Screen.height;
+        max.x = (Screen.width/4) / div * screen_div.x;
+        max.y = (Screen.height/4) / div * screen_div.y;
     }
 
     void Update()
     {
-        if (body.linearVelocityY == 0) 
+        if (body.linearVelocityY == 0)
         {
             if (Input.touchCount > 0)
             {
@@ -30,16 +36,25 @@ public class player_mov : MonoBehaviour
                 {
                     touch_e = touch.position;
 
-                    end.x = (touch_e.x - touch_s.x) / com_div;
-                    end.y = (touch_e.y - touch_s.y) / com_div;
+                    end.x = (touch_e.x - touch_s.x) / div * screen_div.x;                 
+                    end.y = (touch_e.y - touch_s.y)  / div * screen_div.y;
+                    Debug.Log(end);
 
-                    Debug.Log(math.sqrt(math.pow(end.x, 2) + math.pow(end.y, 2)));
+                    if (end.x > max.x) 
+                    {
+                        end.x = max.x;
+                    }
+                    if (end.y > max.y)
+                    {
+                        end.y = max.y;
+                    }
+                    Debug.Log(end);
+                    Debug.Log(max);
+
+
                     body.linearVelocity = end;
                 }
             }
         }
-
-
-        
     }
 }
