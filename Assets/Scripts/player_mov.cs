@@ -10,7 +10,7 @@ public class player_mov : MonoBehaviour
     private Vector2 max = Vector2.zero;
     private Vector2 ideal_screen = new Vector2(1080,1920);
     private Vector2 screen_div = Vector2.zero;
-    public float div = 20;
+    private float div = 80;
 
 
     void Start()
@@ -38,23 +38,33 @@ public class player_mov : MonoBehaviour
 
                     end.x = (touch_e.x - touch_s.x) / div * screen_div.x;                 
                     end.y = (touch_e.y - touch_s.y)  / div * screen_div.y;
-                    Debug.Log(end);
 
                     if (end.x > max.x) 
                     {
                         end.x = max.x;
                     }
+                    else if (end.x < - max.x) 
+                    {
+                        end.x = -max.x;
+                    }
+
                     if (end.y > max.y)
                     {
                         end.y = max.y;
                     }
-                    Debug.Log(end);
-                    Debug.Log(max);
-
 
                     body.linearVelocity = end;
                 }
             }
         }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("vel " + body.linearVelocity);
+        Debug.Log("end " + end);
+
+        Debug.Log(collision.;
     }
 }
